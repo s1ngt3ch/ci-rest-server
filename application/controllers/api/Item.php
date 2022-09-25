@@ -23,8 +23,10 @@ class Item extends RestController {
      * @return Response
     */
 
-	public function index_get($id = 0)
+	public function index_get()
 	{
+        $id = $this->get('id');
+
         if(!empty($id)){
             $data = $this->db->get_where("items", ['id' => $id])->row_array();
         }else{
@@ -52,11 +54,12 @@ class Item extends RestController {
      * @return Response
     */
 
-    public function index_put($id)
+    public function index_put()
     {
         $input = $this->put();
+        $id    = $input['id'];
         $this->db->update('items', $input, array('id'=>$id));
-        $this->response(['Item updated successfully.'], RestController::HTTP_OK);
+        $this->response([$id,'Item updated successfully.'], RestController::HTTP_OK);
     }
 
     /**
@@ -65,8 +68,9 @@ class Item extends RestController {
      * @return Response
     */
 
-    public function index_delete($id)
+    public function index_delete()
     {
+        $id = $this->get('id');
         $this->db->delete('items', array('id'=>$id));
         $this->response(['Item deleted successfully.'], RestController::HTTP_OK);
     }
